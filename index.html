@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Samuel Suchard — Student Developer</title>
+<meta name="description" content="Portfolio of Samuel Suchard: student developer building apps, tools, and hardware projects.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%236ee7b7'/><text x='50' y='68' font-size='56' text-anchor='middle' font-family='monospace' font-weight='700' fill='%23081014'>S</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f7f8f6; --surface:#ffffff; --text:#0f1a17; --muted:#5a6a65; --line:#e1e6e3;
+  --accent:#0f9d73; --accent-ink:#ffffff; --chip:#eaf3ef;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0a0f0e; --surface:#111a18; --text:#e8f0ed; --muted:#8fa39c; --line:#1f2d29;
+    --accent:#6ee7b7; --accent-ink:#06100c; --chip:#16241f;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0a0f0e; --surface:#111a18; --text:#e8f0ed; --muted:#8fa39c; --line:#1f2d29;
+  --accent:#6ee7b7; --accent-ink:#06100c; --chip:#16241f;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1040px;margin:0 auto;padding:0 20px}
+.mono{font-family:"JetBrains Mono",ui-monospace,monospace}
+
+nav{position:sticky;top:0;z-index:10;backdrop-filter:blur(12px);background:color-mix(in srgb,var(--bg) 80%,transparent);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;height:60px}
+.logo{font-weight:700;letter-spacing:-.02em}
+.logo span{color:var(--accent)}
+.links{display:flex;gap:22px;align-items:center;font-size:14px;color:var(--muted)}
+.links a:hover{color:var(--text)}
+#theme{background:none;border:1px solid var(--line);color:var(--text);border-radius:8px;width:34px;height:34px;cursor:pointer;font-size:15px}
+@media(max-width:560px){.links a.hide-s{display:none}}
+
+.hero{padding:96px 0 72px}
+.eyebrow{display:inline-flex;gap:8px;align-items:center;font-size:13px;color:var(--muted);border:1px solid var(--line);background:var(--surface);padding:6px 12px;border-radius:99px}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 25%,transparent)}
+h1{font-size:clamp(38px,7vw,68px);line-height:1.05;letter-spacing:-.035em;margin:22px 0 18px;max-width:14ch}
+h1 em{font-style:normal;color:var(--accent)}
+.lead{font-size:clamp(17px,2.2vw,20px);color:var(--muted);max-width:56ch;margin:0 0 30px}
+.cta{display:flex;gap:12px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:11px 20px;border-radius:10px;font-weight:600;font-size:15px;border:1px solid var(--line);background:var(--surface);transition:transform .15s,border-color .15s}
+.btn:hover{transform:translateY(-2px);border-color:var(--accent)}
+.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.stats{display:flex;gap:36px;margin-top:52px;flex-wrap:wrap}
+.stat b{display:block;font-size:28px;letter-spacing:-.02em}
+.stat span{font-size:13px;color:var(--muted)}
+
+section{padding:56px 0}
+.sec-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:26px;gap:12px;flex-wrap:wrap}
+h2{font-size:28px;letter-spacing:-.02em;margin:0}
+.sec-head p{margin:0;color:var(--muted);font-size:14px}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+.card{display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:22px;transition:transform .2s,border-color .2s,box-shadow .2s}
+.card:hover{transform:translateY(-4px);border-color:var(--accent);box-shadow:0 12px 30px -16px color-mix(in srgb,var(--accent) 50%,transparent)}
+.card h3{margin:0 0 8px;font-size:19px;letter-spacing:-.01em;display:flex;justify-content:space-between;gap:8px}
+.card h3 .arrow{color:var(--muted);transition:transform .2s,color .2s}
+.card:hover h3 .arrow{transform:translate(3px,-3px);color:var(--accent)}
+.card p{margin:0 0 18px;color:var(--muted);font-size:14.5px;flex:1}
+.tags{display:flex;gap:8px;flex-wrap:wrap}
+.tag{font-size:12px;padding:3px 10px;border-radius:99px;background:var(--chip);color:var(--text)}
+.card .foot{display:flex;gap:14px;margin-top:16px;font-size:13px;color:var(--muted)}
+.card .foot a{color:var(--accent);font-weight:600}
+.card .foot a:hover{text-decoration:underline}
+.feat{grid-column:span 1}
+
+.repos{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}
+.repo{border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:16px;display:block;transition:border-color .2s,transform .2s}
+.repo:hover{border-color:var(--accent);transform:translateY(-2px)}
+.repo b{display:block;font-size:15px;margin-bottom:4px;word-break:break-word}
+.repo small{display:block;color:var(--muted);font-size:12.5px;margin-bottom:10px;min-height:2.6em;overflow:hidden}
+.repo .meta{display:flex;gap:12px;font-size:12px;color:var(--muted)}
+.lang::before{content:"";display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--c,var(--accent));margin-right:6px}
+.note{color:var(--muted);font-size:14px}
+
+.about{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start}
+@media(max-width:760px){.about{grid-template-columns:1fr}}
+.about p{color:var(--muted);margin:0 0 14px}
+.skills{display:flex;flex-wrap:wrap;gap:10px}
+.skills .tag{font-size:13.5px;padding:6px 14px;border:1px solid var(--line);background:var(--surface)}
+
+footer{border-top:1px solid var(--line);padding:36px 0 60px;color:var(--muted);font-size:14px}
+footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+footer a:hover{color:var(--accent)}
+
+.reveal{opacity:0;transform:translateY(14px);transition:opacity .6s,transform .6s}
+.reveal.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a href="#top" class="logo mono">samuel<span>.dev</span></a>
+    <div class="links">
+      <a href="#projects" class="hide-s">Projects</a>
+      <a href="#repos" class="hide-s">All repos</a>
+      <a href="#about">About</a>
+      <a href="https://github.com/srsuchard" target="_blank" rel="noopener">GitHub ↗</a>
+      <button id="theme" aria-label="Toggle theme" title="Toggle theme">◐</button>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <span class="eyebrow mono"><i class="dot"></i> Building in public · 2026</span>
+    <h1>Student developer making <em>useful things</em>.</h1>
+    <p class="lead">I build apps, tools, and hardware that solve real problems for students and makers — from learning platforms to a 3D-printed NFC puck that locks your distracting apps.</p>
+    <div class="cta">
+      <a class="btn primary" href="#projects">See my work</a>
+      <a class="btn" href="https://github.com/srsuchard" target="_blank" rel="noopener">View GitHub</a>
+    </div>
+    <div class="stats">
+      <div class="stat"><b id="s-repos">13+</b><span>public repos</span></div>
+      <div class="stat"><b id="s-live">3</b><span>live deployments</span></div>
+      <div class="stat"><b id="s-langs">5</b><span>languages</span></div>
+    </div>
+  </div>
+</header>
+
+<main>
+<section id="projects">
+  <div class="wrap">
+    <div class="sec-head reveal"><h2>Featured projects</h2><p>Hand-picked from my GitHub</p></div>
+    <div class="grid" id="featured"></div>
+  </div>
+</section>
+
+<section id="repos">
+  <div class="wrap">
+    <div class="sec-head reveal"><h2>All repositories</h2><p id="repo-note" class="note">Loading live from GitHub…</p></div>
+    <div class="repos" id="repo-list"></div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="wrap">
+    <div class="sec-head reveal"><h2>About</h2></div>
+    <div class="about reveal">
+      <div>
+        <p>I'm Samuel, a student developer who likes shipping. Most of what I make starts as a problem I run into — losing my place in a project, staying focused, proving the work behind an assignment — and turns into a tool.</p>
+        <p>I'm always looking for honest feedback from students, developers, and makers. If something here looks interesting, open an issue or say hi on GitHub.</p>
+      </div>
+      <div>
+        <div class="skills">
+          <span class="tag">TypeScript</span><span class="tag">Next.js</span><span class="tag">React</span>
+          <span class="tag">Swift / iOS</span><span class="tag">Python</span><span class="tag">JavaScript</span>
+          <span class="tag">Vercel</span><span class="tag">3D printing</span><span class="tag">NFC hardware</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© <span id="yr"></span> Samuel Suchard</span>
+    <a href="https://github.com/srsuchard" target="_blank" rel="noopener">github.com/srsuchard ↗</a>
+  </div>
+</footer>
+
+<script>
+const USER = "srsuchard";
+
+// Edit this list to change what's featured.
+const FEATURED = [
+  {name:"StudyOS", desc:"A study operating system for students, deployed on Vercel.", tags:["TypeScript","Web app"], live:"https://studyos-neon-phi.vercel.app"},
+  {name:"LifeOS", desc:"An AI-powered personal operating system that organizes tasks, schedules, projects, goals, and deadlines in one place.", tags:["Swift","AI","Productivity"], live:"https://lifeos-teal-nine.vercel.app"},
+  {name:"Anchor", desc:"Open-source, 3D-printed NFC puck that physically locks distracting apps until you tap your phone to it again. No software toggle, no subscription.", tags:["Swift","Hardware","NFC"]},
+  {name:"LearnTrace", desc:"Evidence-based learning platform for the AI era. Students document process, AI use, and reflections; teachers verify understanding without AI detectors.", tags:["TypeScript","EdTech"]},
+  {name:"Reconstruct", desc:"Never lose your place again. Capture what you did, why, and what's next, and build a timeline for coding, 3D printing, school, or DIY projects.", tags:["Productivity"]},
+  {name:"Hearth", desc:"ProjectLedger: a personal project and achievement tracker that turns your work into structured evidence for applications and resumes.", tags:["Portfolio","Students"]},
+  {name:"codehub-foundation", desc:"Website for CodeHub Foundation: free coding education, mentorship, and real-world projects for students.", tags:["TypeScript","Nonprofit"], live:"https://codehub-foundation.vercel.app"},
+  {name:"life-vault", desc:"Samuel's Life Vault site.", tags:["JavaScript"]},
+];
+
+const LANG_COLORS = {TypeScript:"#3178c6",JavaScript:"#f1e05a",Swift:"#f05138",Python:"#3572a5",HTML:"#e34c26",Shell:"#89e051"};
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+
+document.getElementById("yr").textContent = new Date().getFullYear();
+
+// Featured cards
+document.getElementById("featured").innerHTML = FEATURED.map(p => `
+  <article class="card reveal">
+    <h3><a href="https://github.com/${USER}/${esc(p.name)}" target="_blank" rel="noopener">${esc(p.name)}</a><span class="arrow">↗</span></h3>
+    <p>${esc(p.desc)}</p>
+    <div class="tags">${p.tags.map(t => `<span class="tag">${esc(t)}</span>`).join("")}</div>
+    <div class="foot">
+      <a href="https://github.com/${USER}/${esc(p.name)}" target="_blank" rel="noopener">Code</a>
+      ${p.live ? `<a href="${esc(p.live)}" target="_blank" rel="noopener">Live demo</a>` : ""}
+    </div>
+  </article>`).join("");
+
+// Live repo list from the GitHub API (falls back gracefully if rate-limited/offline)
+fetch(`https://api.github.com/users/${USER}/repos?per_page=100&sort=pushed`)
+  .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
+  .then(repos => {
+    repos = repos.filter(r => !r.fork && r.name.toLowerCase() !== USER);
+    document.getElementById("repo-note").textContent = `${repos.length} repositories · updated live`;
+    document.getElementById("s-repos").textContent = repos.length;
+    document.getElementById("s-langs").textContent = new Set(repos.map(r => r.language).filter(Boolean)).size;
+    document.getElementById("s-live").textContent = repos.filter(r => r.homepage).length;
+    document.getElementById("repo-list").innerHTML = repos.map(r => `
+      <a class="repo reveal" href="${esc(r.html_url)}" target="_blank" rel="noopener">
+        <b class="mono">${esc(r.name)}</b>
+        <small>${esc((r.description || "").slice(0,90))}</small>
+        <div class="meta">
+          ${r.language ? `<span class="lang" style="--c:${LANG_COLORS[r.language] || "var(--accent)"}">${esc(r.language)}</span>` : ""}
+          <span>★ ${r.stargazers_count}</span>
+          <span>${new Date(r.pushed_at).toLocaleDateString(undefined,{month:"short",year:"numeric"})}</span>
+        </div>
+      </a>`).join("");
+    observe();
+  })
+  .catch(() => {
+    document.getElementById("repo-note").innerHTML = `Couldn't load live data. <a href="https://github.com/${USER}?tab=repositories" style="color:var(--accent)">Browse on GitHub ↗</a>`;
+  });
+
+// Theme toggle
+const root = document.documentElement;
+try { const t = localStorage.getItem("theme"); if (t) root.dataset.theme = t; } catch {}
+document.getElementById("theme").onclick = () => {
+  const dark = root.dataset.theme ? root.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  root.dataset.theme = dark ? "light" : "dark";
+  try { localStorage.setItem("theme", root.dataset.theme); } catch {}
+};
+
+// Scroll reveal
+const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), {threshold:.1});
+function observe(){ document.querySelectorAll(".reveal:not(.in)").forEach(el => io.observe(el)); }
+observe();
+</script>
+</body>
+</html>
