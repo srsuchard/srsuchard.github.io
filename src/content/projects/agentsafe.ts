@@ -46,7 +46,6 @@ export const agentsafe: Project = {
       "captured",
       "2026-11-24",
     ),
-    { kind: "diagram", diagram: "agentsafe-restore", caption: "A restore refuses to continue at any step that fails, and backs up before it changes anything." },
   ],
   sections: [
     {
@@ -64,12 +63,13 @@ export const agentsafe: Project = {
         "Every restore follows the same order: preview, check for conflicts, ask for confirmation, back up the current state, restore, then verify that the project matches the snapshot.",
         "A conflict is a file whose current version isn't saved in any snapshot. A plain restore is refused while conflicts exist; you choose to overwrite them (after they're backed up) or keep them. Each path is re-checked just before it's changed, and a parent directory that has been swapped for a symlink causes an error rather than a write outside the project.",
       ],
+      media: [{ kind: "diagram", diagram: "agentsafe-restore", caption: "A restore stops at any step that fails, and backs up before it changes anything." }],
     },
     {
       id: "demo",
       heading: "A real run",
       body: [
-        "The transcript below is the README's five-minute demo, run from the public repository. It also shows what AgentSafe doesn't protect: deleting the Git-ignored .env file goes unnoticed, because that file was never captured.",
+        "The transcript at the top of this page is the README's five-minute demo, run from the public repository. It also shows what AgentSafe doesn't protect: deleting the Git-ignored .env file goes unnoticed, because that file was never captured.",
       ],
     },
     {

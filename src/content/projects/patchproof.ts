@@ -41,7 +41,6 @@ export const patchproof: Project = {
       "readme",
       "2026-11-24",
     ),
-    { kind: "diagram", diagram: "patchproof-fail-to-pass", caption: "Fail-to-pass: the test must fail on the base revision and pass with the change." },
   ],
   sections: [
     {
@@ -59,6 +58,7 @@ export const patchproof: Project = {
         "To show that a regression test really demonstrates a change, PatchProof runs it twice. First on your working tree, where it must pass. Then against the base revision, in a temporary clone with only the listed test files copied in. If it also passes there, the claim is FAILED: the test doesn't demonstrate the change.",
         "When a fair comparison isn't possible, such as changed dependencies, workspace symlinks or a symlink on the copied paths, the result is UNKNOWN and nothing runs. Your repository is only read: PatchProof never checks out, resets, stashes, cleans or commits in it.",
       ],
+      media: [{ kind: "diagram", diagram: "patchproof-fail-to-pass", caption: "Fail-to-pass: the test must fail on the base revision and pass with the change." }],
     },
     {
       id: "security",
