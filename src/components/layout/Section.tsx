@@ -13,7 +13,9 @@ export function Section({ id, label, eyebrow, children, className = "" }: Props)
         <h2 id={headingId} className="text-2xl font-semibold tracking-tight sm:text-3xl">
           {label}
         </h2>
-        <div className="mt-8 sm:mt-10">{children}</div>
+        <div data-reveal="" className="mt-8 sm:mt-10">
+          {children}
+        </div>
       </Container>
     </section>
   );

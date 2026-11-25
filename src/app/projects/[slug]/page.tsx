@@ -44,7 +44,9 @@ function Block({ id, heading, children }: { id: string; heading: string; childre
         <h2 id={`${id}-heading`} className="text-2xl font-semibold tracking-tight sm:text-3xl">
           {heading}
         </h2>
-        <div className="mt-6">{children}</div>
+        <div data-reveal="" className="mt-6">
+          {children}
+        </div>
       </Container>
     </section>
   );
