@@ -3,9 +3,9 @@ import type { Media } from "@/content/schema";
 import { MediaFigure } from "./MediaFigure";
 import { TerminalBlock } from "./TerminalBlock";
 
-export function MediaItem({ media, sizes, priority = false }: { media: Media; sizes: string; priority?: boolean }) {
+export function MediaItem({ media, sizes, priority = false, compact = false }: { media: Media; sizes: string; priority?: boolean; compact?: boolean }) {
   if (media.kind === "screenshot") return <MediaFigure media={media} sizes={sizes} priority={priority} />;
-  if (media.kind === "terminal") return <TerminalBlock media={media} />;
+  if (media.kind === "terminal") return <TerminalBlock media={media} compact={compact} />;
   return <Diagram id={media.diagram} caption={media.caption} />;
 }
 

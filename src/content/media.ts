@@ -1,4 +1,4 @@
-import generated from "./generated/media.json";
+import generated from "./generated/media.json" with { type: "json" };
 import type { Media } from "./schema";
 
 type Entry = { width: number; height: number; widths: number[] };

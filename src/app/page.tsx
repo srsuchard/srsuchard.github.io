@@ -1,14 +1,22 @@
-import { Container } from "@/components/layout/Container";
+import { Contact } from "@/components/home/Contact";
+import { HearthBand } from "@/components/home/HearthBand";
+import { Hero } from "@/components/home/Hero";
+import { HowIBuild } from "@/components/home/HowIBuild";
+import { MoreProjects } from "@/components/home/MoreProjects";
+import { SelectedWork } from "@/components/home/SelectedWork";
+import { StackSection } from "@/components/home/StackSection";
 import { PageShell } from "@/components/layout/PageShell";
 
-// Placeholder home. No project, Hearth or About content is built before the M3 content review.
 export default function Home() {
   return (
     <PageShell current="home">
-      <Container className="py-24 sm:py-32">
-        <h1 className="text-4xl font-semibold tracking-tight sm:text-6xl">Samuel Suchard</h1>
-        <p className="mt-4 text-lg text-muted">Site in progress.</p>
-      </Container>
+      <Hero />
+      <SelectedWork />
+      <HearthBand />
+      <MoreProjects />
+      <HowIBuild />
+      <StackSection />
+      <Contact />
     </PageShell>
   );
 }

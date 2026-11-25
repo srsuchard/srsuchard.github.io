@@ -11,7 +11,7 @@ const NAV: { key: Exclude<NavKey, "home" | "none">; label: string; href: string 
   { key: "about", label: "About", href: "/about/" },
 ];
 
-const linkClass = "rounded-sm px-1 py-1 text-muted transition-colors hover:text-text aria-[current=page]:text-text";
+const linkClass = "rounded-sm py-1 text-muted transition-colors hover:text-text aria-[current=page]:text-text";
 
 /** Server-rendered header. The current page is passed in, so no client JavaScript is needed for aria-current. */
 export function Header({ current }: { current: NavKey }) {

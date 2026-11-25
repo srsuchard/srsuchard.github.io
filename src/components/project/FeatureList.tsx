@@ -7,7 +7,7 @@ const GROUPS = [
 ] as const;
 
 /** Built and planned work, always kept apart. Partially built items stay under Built, tagged. */
-export function FeatureList({ features, headingLevel = 3 }: { features: Feature[]; headingLevel?: 2 | 3 | 4 }) {
+export function FeatureList({ features, headingLevel = 3, builtLabel = "Built" }: { features: Feature[]; headingLevel?: 2 | 3 | 4; builtLabel?: string }) {
   const H = `h${headingLevel}` as "h2" | "h3" | "h4";
   const base = useId();
   return (
@@ -19,7 +19,7 @@ export function FeatureList({ features, headingLevel = 3 }: { features: Feature[
         return (
           <div key={group.key}>
             <H id={id} className={`mb-3 font-mono text-xs font-normal uppercase tracking-wider ${group.key === "planned" ? "text-muted" : "text-accent"}`}>
-              {group.label}
+              {group.key === "built" ? builtLabel : group.label}
             </H>
             <ul aria-labelledby={id} className="m-0 grid list-none gap-2.5 p-0">
               {items.map((f) => (
