@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { FEATURED, byTier, collaborations, deriveStack, getProject, plannedRoutes, profile, projects } from "@/content/index";
+import { FEATURED, byTier, collaborations, deriveStack, getProject, staticRoutes, profile, projects } from "@/content/index";
 
 describe("content registry", () => {
   it("features AgentSafe, ProjectStrike and PatchProof, in that order", () => {
@@ -22,7 +22,7 @@ describe("content registry", () => {
   });
 
   it("plans a page for every project except Hearth, which has its own route", () => {
-    const routes = plannedRoutes();
+    const routes = staticRoutes();
     expect(routes).toContain("/hearth/");
     expect(routes).not.toContain("/projects/hearth/");
     for (const p of projects.filter((x) => x.slug !== "hearth")) expect(routes).toContain(`/projects/${p.slug}/`);

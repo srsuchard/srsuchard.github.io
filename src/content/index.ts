@@ -50,16 +50,8 @@ export function deriveStack(): { tech: TechId; label: string; projects: string[]
     .sort((a, b) => b.projects.length - a.projects.length || a.label.localeCompare(b.label));
 }
 
-/**
- * Every exported route, as served with `trailingSlash: true`. Used by the sitemap and export tests.
- * Pages are added here only once they're built (M4, after the content review).
- */
+/** Every exported route, as served with `trailingSlash: true`. Used by the sitemap, export and browser tests. */
 export function staticRoutes(): string[] {
-  return ["/", "/projects/", "/hearth/", ...projectPages().map((p) => `/projects/${p.slug}/`)];
-}
-
-/** The routes the finished site will have; staticRoutes() switches to this in Task 10. */
-export function plannedRoutes(): string[] {
   return ["/", "/projects/", "/hearth/", "/about/", ...projectPages().map((p) => `/projects/${p.slug}/`)];
 }
 
