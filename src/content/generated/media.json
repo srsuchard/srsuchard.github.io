@@ -1,0 +1,204 @@
+{
+  "/media/hearth/prototype-landing": {
+    "width": 1440,
+    "height": 840,
+    "widths": [
+      640,
+      1280,
+      1440
+    ]
+  },
+  "/media/projectstrike/duel": {
+    "width": 1440,
+    "height": 900,
+    "widths": [
+      640,
+      1280,
+      1440
+    ]
+  },
+  "/media/projectstrike/ffa-scoreboard": {
+    "width": 1440,
+    "height": 900,
+    "widths": [
+      640,
+      1280,
+      1440
+    ]
+  },
+  "/media/projectstrike/lan-ffa": {
+    "width": 1100,
+    "height": 720,
+    "widths": [
+      640,
+      1100
+    ]
+  },
+  "/media/projectstrike/menu": {
+    "width": 1440,
+    "height": 900,
+    "widths": [
+      640,
+      1280,
+      1440
+    ]
+  },
+  "/media/projectstrike/online-round-won": {
+    "width": 1100,
+    "height": 700,
+    "widths": [
+      640,
+      1100
+    ]
+  },
+  "/media/projectstrike/practice-range": {
+    "width": 1440,
+    "height": 900,
+    "widths": [
+      640,
+      1280,
+      1440
+    ]
+  },
+  "/media/projectstrike/ranked-leaderboard": {
+    "width": 1200,
+    "height": 760,
+    "widths": [
+      640,
+      1200
+    ]
+  },
+  "/media/projectstrike/skybase": {
+    "width": 1440,
+    "height": 900,
+    "widths": [
+      640,
+      1280,
+      1440
+    ]
+  },
+  "/media/projectstrike/unity-menu": {
+    "width": 1440,
+    "height": 900,
+    "widths": [
+      640,
+      1280,
+      1440
+    ]
+  },
+  "/media/projectstrike/unity-neonyard": {
+    "width": 1440,
+    "height": 900,
+    "widths": [
+      640,
+      1280,
+      1440
+    ]
+  },
+  "/media/projectstrike/unity-skybase": {
+    "width": 1440,
+    "height": 900,
+    "widths": [
+      640,
+      1280,
+      1440
+    ]
+  },
+  "/media/projectstrike/unity-sniper": {
+    "width": 1440,
+    "height": 900,
+    "widths": [
+      640,
+      1280,
+      1440
+    ]
+  },
+  "/media/projectstrike/unity-testarena-after": {
+    "width": 1440,
+    "height": 900,
+    "widths": [
+      640,
+      1280,
+      1440
+    ]
+  },
+  "/media/projectstrike/unity-testarena-before": {
+    "width": 1440,
+    "height": 900,
+    "widths": [
+      640,
+      1280,
+      1440
+    ]
+  },
+  "/media/projectstrike/web-neonyard": {
+    "width": 1440,
+    "height": 900,
+    "widths": [
+      640,
+      1280,
+      1440
+    ]
+  },
+  "/media/waveforge/library": {
+    "width": 1440,
+    "height": 900,
+    "widths": [
+      640,
+      1280,
+      1440
+    ]
+  },
+  "/media/waveforge/plan": {
+    "width": 1440,
+    "height": 900,
+    "widths": [
+      640,
+      1280,
+      1440
+    ]
+  },
+  "/media/waveforge/player": {
+    "width": 1440,
+    "height": 900,
+    "widths": [
+      640,
+      1280,
+      1440
+    ]
+  },
+  "/media/waveforge/player-mobile": {
+    "width": 780,
+    "height": 1688,
+    "widths": [
+      640,
+      780
+    ]
+  },
+  "/media/waveforge/progress": {
+    "width": 1440,
+    "height": 900,
+    "widths": [
+      640,
+      1280,
+      1440
+    ]
+  },
+  "/media/waveforge/today": {
+    "width": 1440,
+    "height": 900,
+    "widths": [
+      640,
+      1280,
+      1440
+    ]
+  },
+  "/media/waveforge/today-mobile": {
+    "width": 780,
+    "height": 1688,
+    "widths": [
+      640,
+      780
+    ]
+  }
+}
