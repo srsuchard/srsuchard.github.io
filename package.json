@@ -18,7 +18,8 @@
     "preview": "node scripts/serve-out.mjs --port 3200",
     "test:e2e": "pnpm build && playwright test",
     "media": "tsx scripts/optimize-media.ts",
-    "og": "tsx scripts/generate-og.tsx"
+    "og": "tsx scripts/generate-og.tsx",
+    "verify:links": "tsx scripts/verify-links.ts"
   },
   "dependencies": {
     "next": "16.4.6",

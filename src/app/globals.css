@@ -103,3 +103,10 @@
     }
   }
 }
+
+/* Printed pages never keep a revealed block in its starting (faded) state. */
+@media print {
+  [data-reveal] {
+    animation: none !important;
+  }
+}
