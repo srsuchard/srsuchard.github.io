@@ -34,6 +34,19 @@ describe("CSP meta in out/", () => {
         if (m[1]) expect(scriptSrc, rel).toContain(sha(m[1]));
     });
 
+    it(`${rel}: has exactly one hash per inline script (counted independently of the script's regex)`, () => {
+      const html = readFileSync(file, "utf8");
+      // Count opening <script tags by plain string scanning; external ones carry a src attribute
+      // before the tag closes. Deliberately not the implementation's regex.
+      let inline = 0;
+      for (let at = html.indexOf("<script"); at !== -1; at = html.indexOf("<script", at + 7)) {
+        const tag = html.slice(at, html.indexOf(">", at) + 1);
+        if (!/\ssrc=/.test(tag)) inline++;
+      }
+      const policy = /http-equiv="Content-Security-Policy" content="([^"]+)"/.exec(html)![1]!;
+      expect(policy.split("'sha256-").length - 1, rel).toBe(inline);
+    });
+
     it(`${rel}: sets a strict referrer policy`, () => {
       expect(readFileSync(file, "utf8")).toContain('<meta name="referrer" content="strict-origin-when-cross-origin"/>');
     });

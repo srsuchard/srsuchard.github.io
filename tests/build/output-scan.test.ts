@@ -36,9 +36,17 @@ describe("built output leak scan", () => {
     expect(textFiles.filter(([, t]) => patterns.some((re) => re.test(t))).map(([f]) => f)).toEqual([]);
   });
 
-  it("links only to allowlisted GitHub URLs from pages and page data", () => {
+  it("links only to allowlisted GitHub addresses (any GitHub host, with or without a scheme) from pages and page data", () => {
+    const own = new URL(siteUrl()).hostname;
     const found = pages.flatMap(([f, t]) =>
-      [...t.matchAll(/https?:\/\/(?:www\.)?github\.com[^\s"'\\<>)]*/g)].map((m) => m[0].replace(/\/$/, "")).filter((u) => !(ALLOWED_GITHUB as readonly string[]).includes(u)).map((u) => `${f}: ${u}`),
+      [...t.matchAll(/\b(?:https?:\/\/)?(?:[\w-]+\.)*(?:github\.com|githubusercontent\.com|github\.io)\b[^\s"'\\<>)]*/gi)]
+        .map((m) => m[0].replace(/[.,;:!?]+$/, ""))
+        .filter((raw) => {
+          const url = new URL(/^https?:\/\//i.test(raw) ? raw : `https://${raw}`);
+          if (url.hostname === own) return false;
+          return !(ALLOWED_GITHUB as readonly string[]).includes(`https://${url.hostname.replace(/^www\./, "")}${url.pathname.replace(/\/$/, "")}`);
+        })
+        .map((u) => `${f}: ${u}`),
     );
     expect(found).toEqual([]);
   });

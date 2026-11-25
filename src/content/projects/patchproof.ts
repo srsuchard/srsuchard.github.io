@@ -73,6 +73,6 @@ export const patchproof: Project = {
     "PatchProof/README.md#intro, #The problem, #What version 0.1 supports",
     "PatchProof/README.md#Fail-to-pass verification, #Security considerations, #Known limitations",
     "PatchProof/PILOT_READINESS.md#Verdict",
-    "github.com/srsuchard/patchproof returns 404 to the public API (2026-11-24): no repository link",
+    "Repository not visible to the public GitHub API on 2026-11-24 (404): no repository link",
   ],
 };

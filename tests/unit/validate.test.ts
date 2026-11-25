@@ -50,6 +50,16 @@ describe("validateContent", () => {
       const p = validProject({ summary: "See https://github.com/someone-else/repo for details." });
       expectOnly(validateContent(validInput({ projects: [p] })), "R1");
     });
+    it("rejects GitHub URLs without a scheme or on other GitHub hosts", () => {
+      for (const text of ["See github.com/someone/repo", "gist.github.com/someone/abc", "https://raw.githubusercontent.com/someone/repo/main/x", "someone.github.io/site", "https://api.github.com/repos/someone/repo"]) {
+        const p = validProject({ summary: text });
+        expect(errorRules(validateContent(validInput({ projects: [p] }))), text).toEqual(["R1"]);
+      }
+    });
+    it("accepts the allowlisted repo without a scheme and the site's own address", () => {
+      const p = validProject({ summary: "Installed from github.com/srsuchard/agentsafe; the portfolio lives at srsuchard.github.io." });
+      expect(validateContent(validInput({ projects: [p] }))).toEqual([]);
+    });
     it("rejects a contact list other than exactly the GitHub profile", () => {
       const s = site();
       s.contact.push({ kind: "github", url: "https://github.com/srsuchard/agentsafe", label: "Issues", verifiedOn: "2026-11-24" });
@@ -75,6 +85,23 @@ describe("validateContent", () => {
         variants: [{ id: "v", name: "V", status: { label: "x", detail: "y", asOf: "2026-11-01" }, stack: [], features: [{ text: "TOTP MFA sign-in", state: "partial" }], limitations: [], media: [] }],
       });
       expectOnly(validateContent(validInput({ projects: [p] })), "R3");
+    });
+    it("rejects a security claim in Hearth's summary or case-study text", () => {
+      const summary = validProject({ slug: "hearth", links: [], source: { visibility: "private" }, summary: "Hearth encrypts your vault end-to-end." });
+      expect(errorRules(validateContent(validInput({ projects: [summary] })))).toEqual(["R3"]);
+      const section = validProject({ slug: "hearth", links: [], source: { visibility: "private" }, sections: [{ id: "s", heading: "Security", body: ["Your data is zero-knowledge."] }] });
+      expect(errorRules(validateContent(validInput({ projects: [section] })))).toEqual(["R3"]);
+    });
+    it("allows Hearth text that states security features don't exist yet or are planned", () => {
+      const p = validProject({
+        slug: "hearth",
+        links: [],
+        source: { visibility: "private" },
+        summary: "The vault, encryption and accounts don't exist yet.",
+        limitations: ["There is no encryption yet."],
+        sections: [{ id: "s", heading: "Stage", body: ["Phase 3 · Core app: vault lifecycle, recovery and encrypted items: not started"] }],
+      });
+      expect(validateContent(validInput({ projects: [p] }))).toEqual([]);
     });
     it("allows the same features when planned", () => {
       const p = validProject({ slug: "hearth", links: [], source: { visibility: "private" }, features: [{ text: "Client-side encryption", state: "planned" }] });
@@ -157,7 +184,7 @@ describe("validateContent", () => {
   });
 
   it("R8 unverifiable-phrasing: rejects marketing claims", () => {
-    for (const phrase of ["Used by 10,000+ users", "production-ready", "military-grade encryption", "fully secure"]) {
+    for (const phrase of ["Used by 10,000+ users", "10k users", "1.2k downloads", "500+ stars", "Trusted by teams", "used by 40 schools", "production-ready", "military-grade encryption", "fully secure"]) {
       const p = validProject({ summary: phrase });
       expect(errorRules(validateContent(validInput({ projects: [p] }))), phrase).toEqual(["R8"]);
     }

@@ -1,4 +1,4 @@
-import { mkdtempSync, mkdirSync, writeFileSync, rmSync } from "node:fs";
+import { mkdtempSync, mkdirSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import type { AddressInfo } from "node:net";
@@ -8,6 +8,7 @@ import { createPagesServer } from "../../scripts/serve-out.mjs";
 
 // The preview server must behave like GitHub Pages so e2e results carry over to the live site.
 let root: string;
+let outside: string;
 let server: Server;
 let base: string;
 
@@ -20,6 +21,10 @@ beforeAll(async () => {
   mkdirSync(join(root, "_next"));
   writeFileSync(join(root, "_next", "app.js"), "console.log(1)");
   writeFileSync(join(root, "page.html"), "<h1>flat</h1>");
+  outside = mkdtempSync(join(tmpdir(), "serve-out-outside-"));
+  writeFileSync(join(outside, "secret.txt"), "secret");
+  symlinkSync(join(outside, "secret.txt"), join(root, "link.txt"));
+  symlinkSync(outside, join(root, "linkdir"));
   server = createPagesServer(root);
   await new Promise<void>((resolve) => server.listen(0, "127.0.0.1", resolve));
   base = `http://127.0.0.1:${(server.address() as AddressInfo).port}`;
@@ -28,6 +33,7 @@ beforeAll(async () => {
 afterAll(() => {
   server.close();
   rmSync(root, { recursive: true, force: true });
+  rmSync(outside, { recursive: true, force: true });
 });
 
 const get = (path: string, init?: RequestInit) => fetch(base + path, { redirect: "manual", ...init });
@@ -76,6 +82,14 @@ describe("serve-out (GitHub Pages mimic)", () => {
     for (const path of ["/../package.json", "/..%2f..%2fetc%2fpasswd", "/%2e%2e/%2e%2e/etc/hosts"]) {
       const res = await get(path);
       expect(res.status, path).toBe(404);
+    }
+  });
+
+  it("never follows a symlink out of the root", async () => {
+    for (const path of ["/link.txt", "/linkdir/secret.txt"]) {
+      const res = await get(path);
+      expect(res.status, path).toBe(404);
+      expect(await res.text()).not.toContain("secret");
     }
   });
 

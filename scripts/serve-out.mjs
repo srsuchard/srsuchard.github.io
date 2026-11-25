@@ -6,7 +6,7 @@
 //   anything else -> 404.html with status 404
 // Only GET and HEAD. Never serves a file outside the root.
 import { createServer } from "node:http";
-import { existsSync, readFileSync, statSync } from "node:fs";
+import { existsSync, readFileSync, realpathSync, statSync } from "node:fs";
 import { extname, join, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -30,12 +30,22 @@ const TYPES = {
   ".webmanifest": "application/manifest+json",
 };
 
-const isFile = (p) => existsSync(p) && statSync(p).isFile();
-const isDir = (p) => existsSync(p) && statSync(p).isDirectory();
+const isFileAt = (p) => existsSync(p) && statSync(p).isFile();
+const isDirAt = (p) => existsSync(p) && statSync(p).isDirectory();
 
 /** @param {string} rootDir */
 export function createPagesServer(rootDir) {
   const root = resolve(rootDir);
+  const realRoot = realpathSync(root);
+  /** True if the path, after resolving symlinks, is still inside the root. */
+  const contained = (p) => {
+    try {
+      const real = realpathSync(p);
+      return real === realRoot || real.startsWith(realRoot + sep);
+    } catch {
+      return false;
+    }
+  };
 
   /** Resolve a URL path to an absolute path inside root, or null if it escapes root. */
   const inside = (urlPath) => {
@@ -49,6 +59,10 @@ export function createPagesServer(rootDir) {
     const full = resolve(root, "." + decoded);
     return full === root || full.startsWith(root + sep) ? full : null;
   };
+
+  // Only files and directories that resolve inside the root count; symlinks out of it are ignored.
+  const isFile = (p) => isFileAt(p) && contained(p);
+  const isDir = (p) => isDirAt(p) && contained(p);
 
   return createServer((req, res) => {
     const send = (status, file, headers = {}) => {
@@ -93,7 +107,7 @@ if (isMain) {
   const port = Number(arg("port", "3200"));
   const host = arg("host", "127.0.0.1");
   const dir = arg("dir", "out");
-  if (!isFile(join(dir, "index.html"))) {
+  if (!isFileAt(join(dir, "index.html"))) {
     console.error(`serve-out: ${dir}/index.html not found. Run \`pnpm build\` first.`);
     process.exit(1);
   }

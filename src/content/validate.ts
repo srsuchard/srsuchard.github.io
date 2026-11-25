@@ -35,10 +35,17 @@ const PHONE = /(?:\+\d{1,3}[\s.-]?)?\(?\b\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}\b|\+\d{1
 const HOME_DIR = /\/Users\//;
 const EXCLUDED_TERMS = /OmaCanvas|seawolf/i;
 const UNVERIFIABLE =
-  /\b\d[\d,]*\+?\s*(?:users|customers|downloads)\b|\brevenue\b|production[- ]ready|military[- ]grade|unhackable|bank[- ]level|fully secure/i;
+  /\b\d[\d,.]*\s*[km]?\+?\s*(?:users|customers|downloads|installs|stars)\b|\btrusted by\b|\bused by (?:over |more than )?\d|\brevenue\b|production[- ]ready|military[- ]grade|unhackable|bank[- ]level|fully secure/i;
 const DEPLOY_CLAIM = /\b(?:live|deployed|launched|available at)\b/gi;
-const NEGATION_BEFORE = /\b(?:not|never|no|isn't|is not|un)\s*$/i;
-const GITHUB_URL = /https?:\/\/(?:www\.)?github\.com[^\s"'()<>]*/gi;
+// Known limit: only the words immediately before the claim are checked, so "no longer live" or
+// "not yet deployed" pass, and so would an unrelated "no" right before "live". Keep status text short.
+const NEGATION_BEFORE = /\b(?:not|never|no|isn't|is not|un)\s*(?:yet\s+|longer\s+)?$/i;
+// Any GitHub-hosted address, with or without a scheme: github.com and its subdomains (gist., api.),
+// githubusercontent.com and github.io.
+const GITHUB_URL = /\b(?:https?:\/\/)?(?:[\w-]+\.)*(?:github\.com|githubusercontent\.com|github\.io)\b[^\s"'()<>]*/gi;
+const OWN_SITE_HOST = "srsuchard.github.io";
+// Hearth text may mention a security feature only to say it doesn't exist yet or is planned.
+const NOT_YET = /\b(?:no|not|none|never|planned|yet)\b|n't\b/i;
 
 const issue = (rule: RuleId, where: string, message: string, severity: ContentIssue["severity"] = "error"): ContentIssue => ({
   rule,
@@ -83,7 +90,20 @@ const contentStrings = (input: ContentInput) => [
   ...strings(input.profile, "profile"),
 ];
 
-const allowedGithub = (url: string) => (ALLOWED_GITHUB as readonly string[]).includes(url.replace(/\/$/, ""));
+/** Normalises a matched GitHub address and checks it against the allowlist (plus this site's own host). */
+function allowedGithub(raw: string): boolean {
+  const trimmed = raw.replace(/[.,;:!?]+$/, "");
+  let url: URL;
+  try {
+    url = new URL(/^https?:\/\//i.test(trimmed) ? trimmed : `https://${trimmed}`);
+  } catch {
+    return false;
+  }
+  const host = url.hostname.toLowerCase().replace(/^www\./, "");
+  if (host === OWN_SITE_HOST) return true;
+  const normalised = `https://${host}${url.pathname.replace(/\/$/, "")}`;
+  return (ALLOWED_GITHUB as readonly string[]).includes(normalised);
+}
 
 function r1GithubAllowlist(input: ContentInput): ContentIssue[] {
   const out: ContentIssue[] = [];
@@ -118,6 +138,16 @@ function r3HearthPlannedOnly(input: ContentInput): ContentIssue[] {
     for (const [where, f] of features)
       if (f.state !== "planned" && HEARTH_SECURITY.test(f.text))
         out.push(issue("R3", where, `Hearth security feature must be "planned", not "${f.state}": ${f.text}`));
+    // Every other Hearth string (summary, status, sections, captions, alt text, limitations…):
+    // a security term is allowed only in a statement that it doesn't exist yet or is planned.
+    const plannedTexts = new Set(features.filter(([, f]) => f.state === "planned").map(([, f]) => f.text));
+    const others = [
+      ...strings({ ...p, features: [], variants: [] }, projectPath(p)),
+      ...(p.variants ?? []).flatMap((v) => [...strings({ ...v, features: [] }, `${projectPath(p)}.variants[${v.id}]`)]),
+    ];
+    for (const [where, text] of others)
+      if (!plannedTexts.has(text) && HEARTH_SECURITY.test(text) && !NOT_YET.test(text))
+        out.push(issue("R3", where, `Hearth text describes a security feature as if it exists: "${text}"`));
   }
   return out;
 }
