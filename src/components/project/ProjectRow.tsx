@@ -5,7 +5,7 @@ import { ProjectSpec } from "./ProjectSpec";
 /** One line per project in a list: name, tagline and spec line, the whole row linking to its page. */
 export function ProjectRow({ project, href = `/projects/${project.slug}/` }: { project: Project; href?: string }) {
   return (
-    <li className="border-t border-border">
+    <li data-reveal="" className="project-row border-t border-border">
       <Link href={href} className="group grid gap-2 rounded-sm py-6 md:grid-cols-12 md:gap-8">
         <span className="flex items-baseline justify-between gap-4 md:col-span-3">
           <span className="text-lg font-semibold tracking-tight">{project.name}</span>

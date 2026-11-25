@@ -10,7 +10,7 @@ export function DemoBadge() {
 export function MediaFigure({ media, sizes, priority = false }: Props) {
   return (
     <figure className="m-0">
-      <a href={largestUrl(media)} className="block overflow-hidden rounded-sm border border-border bg-surface transition-colors hover:border-muted">
+      <a href={largestUrl(media)} className="media-frame block overflow-hidden rounded-sm border border-border bg-surface transition-colors hover:border-muted">
         <ResponsiveImage media={media} sizes={sizes} priority={priority} />
       </a>
       <figcaption className="mt-3 flex flex-wrap items-baseline gap-x-2 gap-y-1 text-sm text-muted">
