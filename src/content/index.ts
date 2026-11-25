@@ -55,7 +55,7 @@ export function deriveStack(): { tech: TechId; label: string; projects: string[]
  * Pages are added here only once they're built (M4, after the content review).
  */
 export function staticRoutes(): string[] {
-  return ["/", "/projects/", ...projectPages().map((p) => `/projects/${p.slug}/`)];
+  return ["/", "/projects/", "/hearth/", ...projectPages().map((p) => `/projects/${p.slug}/`)];
 }
 
 /** The routes the finished site will have; staticRoutes() switches to this in Task 10. */

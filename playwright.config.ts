@@ -1,4 +1,8 @@
+import { existsSync } from "node:fs";
 import { defineConfig, devices } from "@playwright/test";
+
+// Local-only settings such as PORTFOLIO_BLOCKED_NAMES (git-ignored).
+if (existsSync(".env.local")) process.loadEnvFile(".env.local");
 
 // Tests run against the exported site served by the GitHub Pages mimic (scripts/serve-out.mjs),
 // or against a deployed site when BASE_URL is set. `pnpm test:e2e` builds out/ first.
