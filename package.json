@@ -16,7 +16,8 @@
     "check": "pnpm typecheck && pnpm lint && pnpm test:unit",
     "test:build": "pnpm build && vitest run tests/build",
     "preview": "node scripts/serve-out.mjs --port 3200",
-    "test:e2e": "pnpm build && playwright test"
+    "test:e2e": "pnpm build && playwright test",
+    "media": "tsx scripts/optimize-media.ts"
   },
   "dependencies": {
     "next": "16.4.6",

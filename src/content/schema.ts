@@ -64,7 +64,8 @@ export const MediaSchema = z.discriminatedUnion("kind", [
     kind: z.literal("screenshot"),
     // Base path without extension; files are `${src}-${width}.webp` under public/.
     src: z.string().regex(/^\/media\/[a-z0-9-]+\/[a-z0-9-]+$/),
-    widths: z.array(z.literal(IMAGE_WIDTHS)).min(1),
+    // Available WebP widths: the standard IMAGE_WIDTHS up to the source width, plus the source width itself.
+    widths: z.array(z.int().min(320).max(3840)).min(1),
     alt: text,
     caption: text,
     width: z.int().positive(),
