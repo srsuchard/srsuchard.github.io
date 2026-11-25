@@ -11,14 +11,14 @@ const NAV: { key: Exclude<NavKey, "home" | "none">; label: string; href: string 
   { key: "about", label: "About", href: "/about/" },
 ];
 
-const linkClass = "rounded-sm py-1 text-muted transition-colors hover:text-text aria-[current=page]:text-text";
+const linkClass = "nav-link rounded-sm py-1 text-muted transition-colors hover:text-text aria-[current=page]:text-text";
 
 /** Server-rendered header. The current page is passed in, so no client JavaScript is needed for aria-current. */
 export function Header({ current }: { current: NavKey }) {
   return (
     <header className="border-b border-border">
       <Container className="flex flex-wrap items-center justify-between gap-x-6 gap-y-2 py-4">
-        <Link href="/" className="rounded-sm font-semibold tracking-tight" aria-current={current === "home" ? "page" : undefined}>
+        <Link href="/" className="brand-link rounded-sm font-semibold tracking-tight" aria-current={current === "home" ? "page" : undefined}>
           Samuel Suchard
         </Link>
         <nav aria-label="Primary">

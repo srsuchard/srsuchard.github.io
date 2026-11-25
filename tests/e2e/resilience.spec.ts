@@ -46,12 +46,64 @@ test.describe("with reduced motion", () => {
       expect(names.every((n) => n === "none"), path).toBe(true);
       expect((await opacities(page)).every((o) => o === "1"), path).toBe(true);
     }
+
+    await page.goto("/");
+    const intro = page.locator("[data-intro]");
+    expect((await intro.evaluateAll((els) => els.map((el) => getComputedStyle(el).animationName))).every((n) => n === "none")).toBe(true);
+    expect((await intro.evaluateAll((els) => els.map((el) => getComputedStyle(el).opacity))).every((o) => o === "1")).toBe(true);
   });
 });
 
-test("without scroll-driven animation support, the base styles leave everything visible", async ({ page }) => {
-  // Simulate an unsupporting browser by removing the animation; the base state must not be hidden.
+test.describe("with motion enabled", () => {
+  test.use({ reducedMotion: "no-preference" });
+
+  test("scroll reveals stay within the 250ms motion budget", async ({ page }) => {
+    await page.goto("/");
+    await expect(page.locator("html")).toHaveAttribute("data-motion-ready", "true");
+
+    const motionTimes = await page.locator("[data-reveal]").evaluateAll((els) =>
+      els.flatMap((el) => {
+        const style = getComputedStyle(el);
+        const toMilliseconds = (value: string) => {
+          const amount = Number.parseFloat(value.trim());
+          return value.trim().endsWith("ms") ? amount : amount * 1000;
+        };
+        const durations = style.transitionDuration.split(",").map(toMilliseconds);
+        const delays = style.transitionDelay.split(",").map(toMilliseconds);
+        return durations.map((duration, index) => duration + (delays[index % delays.length] ?? 0));
+      }),
+    );
+    expect(motionTimes.length).toBeGreaterThan(0);
+    expect(Math.max(...motionTimes)).toBeLessThanOrEqual(250);
+  });
+});
+
+test("without Intersection Observer support, the base styles leave everything visible", async ({ page }) => {
+  await page.addInitScript(() => {
+    Object.defineProperty(window, "IntersectionObserver", { configurable: true, value: undefined });
+  });
   await page.goto("/");
-  await page.addStyleTag({ content: "[data-reveal]{animation:none !important}" });
   expect((await opacities(page)).every((o) => o === "1")).toBe(true);
+});
+
+test("if the reveal observer fails to initialize, content stays visible", async ({ page }) => {
+  const errors: string[] = [];
+  page.on("console", (message) => {
+    if (message.type() === "error") errors.push(message.text());
+  });
+  await page.addInitScript(() => {
+    const NativeObserver = window.IntersectionObserver;
+    const BrokenObserver = class extends NativeObserver {
+      observe(target: Element) {
+        if (target.matches("[data-reveal]")) throw new Error("observer unavailable");
+        super.observe(target);
+      }
+    };
+    Object.defineProperty(window, "IntersectionObserver", { configurable: true, value: BrokenObserver });
+  });
+  await page.goto("/");
+
+  expect((await opacities(page)).every((opacity) => opacity === "1")).toBe(true);
+  await expect(page.locator("html")).not.toHaveAttribute("data-motion-ready", "true");
+  expect(errors.some((message) => message.includes("Scroll reveal initialization failed"))).toBe(true);
 });

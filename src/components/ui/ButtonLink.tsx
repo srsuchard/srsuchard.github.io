@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { ExternalLink } from "./ExternalLink";
 
-const base = "inline-flex items-center gap-2 rounded-sm px-5 py-2.5 text-sm font-medium transition-colors";
+const base = "motion-button inline-flex items-center gap-2 rounded-sm px-5 py-2.5 text-sm font-medium transition-colors";
 const styles = {
   primary: `${base} bg-accent text-on-accent hover:bg-[#7aa2ff]`,
   secondary: `${base} border border-border text-text hover:border-muted`,

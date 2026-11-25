@@ -13,7 +13,7 @@ function leadMedia(p: Project): Media | undefined {
 function FeaturedProject({ project, index }: { project: Project; index: number }) {
   const media = leadMedia(project);
   return (
-    <article data-reveal="" className="grid gap-8 border-t border-border pt-10 first:border-t-0 first:pt-0 lg:grid-cols-12 lg:gap-12">
+    <article data-reveal="" data-reveal-delay={index} className="featured-project grid gap-8 border-t border-border pt-10 first:border-t-0 first:pt-0 lg:grid-cols-12 lg:gap-12">
       <div className="lg:col-span-5">
         <p className="font-mono text-xs text-muted">{String(index + 1).padStart(2, "0")}</p>
         <h3 className="mt-2 text-2xl font-semibold tracking-tight sm:text-3xl">{project.name}</h3>
