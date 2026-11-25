@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { StructuredData } from "@/components/layout/StructuredData";
 import { isIndexable, site, siteUrl } from "@/content/site";
 import "./globals.css";
 
@@ -17,13 +18,22 @@ export const metadata: Metadata = {
   referrer: "strict-origin-when-cross-origin",
   robots: { index: indexable, follow: indexable },
   formatDetection: { telephone: false, email: false, address: false },
-  openGraph: { type: "website", siteName: "Samuel Suchard", locale: "en_US" },
+  openGraph: {
+    type: "website",
+    siteName: "Samuel Suchard",
+    locale: "en_US",
+    images: [{ url: "/og/home.png", width: 1200, height: 630, alt: "Samuel Suchard: software developer, technology builder and founder of Hearth" }],
+  },
+  twitter: { card: "summary_large_image" },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${sans.variable} ${mono.variable}`}>
-      <body>{children}</body>
+      <body>
+        {children}
+        <StructuredData />
+      </body>
     </html>
   );
 }

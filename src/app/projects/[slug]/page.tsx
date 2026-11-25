@@ -20,7 +20,19 @@ export async function generateMetadata({ params }: PageProps<"/projects/[slug]">
   const { slug } = await params;
   const p = getProject(slug);
   if (!p) return {};
-  return { title: p.name, description: p.tagline, alternates: { canonical: `/projects/${p.slug}/` } };
+  return {
+    title: p.name,
+    description: p.tagline,
+    alternates: { canonical: `/projects/${p.slug}/` },
+    openGraph: {
+      type: "article",
+      siteName: "Samuel Suchard",
+      title: `${p.name} · Samuel Suchard`,
+      description: p.tagline,
+      url: `/projects/${p.slug}/`,
+      images: [{ url: `/og/${p.slug}.png`, width: 1200, height: 630, alt: `${p.name}: ${p.tagline}` }],
+    },
+  };
 }
 
 const WIDE = "(min-width: 1200px) 1136px, 100vw";

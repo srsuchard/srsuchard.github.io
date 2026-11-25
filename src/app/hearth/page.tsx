@@ -17,6 +17,14 @@ export const metadata: Metadata = {
   title: "Hearth",
   description: hearth.tagline,
   alternates: { canonical: "/hearth/" },
+  openGraph: {
+    type: "article",
+    siteName: "Samuel Suchard",
+    title: "Hearth · Samuel Suchard",
+    description: hearth.tagline,
+    url: "/hearth/",
+    images: [{ url: "/og/hearth.png", width: 1200, height: 630, alt: `Hearth: ${hearth.tagline}` }],
+  },
 };
 
 function Block({ id, heading, children, planned = false }: { id: string; heading: string; children: ReactNode; planned?: boolean }) {

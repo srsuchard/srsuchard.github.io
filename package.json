@@ -9,7 +9,7 @@
   },
   "scripts": {
     "dev": "next dev",
-    "build": "next build && node scripts/csp-meta.mjs out",
+    "build": "pnpm og && next build && node scripts/csp-meta.mjs out",
     "typecheck": "next typegen && tsc --noEmit",
     "lint": "eslint .",
     "test:unit": "vitest run tests/unit",
@@ -17,7 +17,8 @@
     "test:build": "pnpm build && vitest run tests/build",
     "preview": "node scripts/serve-out.mjs --port 3200",
     "test:e2e": "pnpm build && playwright test",
-    "media": "tsx scripts/optimize-media.ts"
+    "media": "tsx scripts/optimize-media.ts",
+    "og": "tsx scripts/generate-og.tsx"
   },
   "dependencies": {
     "next": "16.4.6",

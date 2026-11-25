@@ -46,3 +46,4 @@ docs/internal/
 test-results/
 playwright-report/
 .claude/settings.local.json
+public/og/
