@@ -23,8 +23,9 @@ export type ContentInput = {
   liveAllowlist: string[];
 };
 
-export const PROFILE_URL = "https://github.com/srsuchard";
-export const ALLOWED_GITHUB = [PROFILE_URL, "https://github.com/srsuchard/agentsafe"] as const;
+import { ALLOWED_GITHUB, PROFILE_URL } from "./constants";
+
+export { ALLOWED_GITHUB, PROFILE_URL };
 const EXCLUDED_SLUGS = ["omacanvas", "surftrainer"];
 const STALE_DAYS = 180;
 
